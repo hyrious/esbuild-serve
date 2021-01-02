@@ -1,0 +1,10 @@
+{
+    "exclude": ["bin.ts"],
+    "compilerOptions": {
+        "lib": ["ESNext"],
+        "downlevelIteration": true,
+        "declaration": true,
+        "emitDeclarationOnly": true,
+        "outDir": "../dist"
+    }
+}

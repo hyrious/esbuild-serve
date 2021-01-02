@@ -1,0 +1,65 @@
+## esbuild-serve
+
+[GitHub Repo](https://github.com/hyrious/esbuild-serve/)
+
+### Install
+
+Install it globally,
+
+```shell-session
+npm i -g @hyrious/esbuild-serve
+```
+
+> You can also use `yarn` or `pnpm`.
+
+or add it to your devDependencies,
+
+```shell-session
+npm i -D @hyrious/esbuild-serve
+```
+
+or use it from `npx` directly.
+
+### Usage
+
+Inside your front-end project, given such directory structure:
+
+```
+(root).
+    /index.html
+        (inner text)
+        <script src="https://cdn/to/react.min.js"></script>
+        <script data-src="main.tsx" src="main.js"></script>...
+    /main.tsx
+```
+
+> Use `<script data-src src>` so that
+> the html page can be reused as the production code.
+> But this is opinionated, you can use `<script src="main.tsx">`.
+> The rewrite will only occur on relative paths.
+
+simply run
+
+```shell-session
+> esbuild-serve
+server is listening to http://localhost:4000
+```
+
+then an http server will be created and every time you
+**access the page** or **modify the file** indicated by `data-src`,
+the server will use esbuild to re-generate bundled file and
+tell browser to refresh.
+
+Since esbuild is very quick, this server will not use any "cache"
+technologies and its implementation is _slow_ and dirty. You should never
+put the server to production.
+
+### Built-in behaviors
+
+For convenience, there are some built-in bahaviors to make it zero-config-able.
+
+-   asdasdsa
+
+### License
+
+MIT @ [hyrious](https://github.com/hyrious)
