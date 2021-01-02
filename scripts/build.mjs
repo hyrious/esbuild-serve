@@ -1,5 +1,6 @@
 import esbuild from "esbuild";
 import { performance } from "perf_hooks";
+import { execSync } from "child_process";
 
 const commonConfig = {
     bundle: true,
@@ -25,4 +26,7 @@ Promise.all([
     }),
 ]).catch(console.error);
 console.log("[esbuild] done in", performance.now() - t, "ms");
-console.log("[tsc] emit declaration file");
+if (process.argv[2] === "-t") {
+    console.log("[tsc] emit declaration file");
+    execSync("yarn build:types");
+}
