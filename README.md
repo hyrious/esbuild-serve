@@ -59,8 +59,15 @@ put the server to production.
 For convenience, there are some built-in bahaviors to make it zero-config-able.
 
 -   404.html or index.html will be used by default for not found page, you can
-    use it to build single page application
+    use it to build single page application.
+
+### Todo
+
+- [x] No HMR, use [vite][] if you need it.
+- Raise an issue if you need something.
 
 ### License
 
 MIT @ [hyrious](https://github.com/hyrious)
+
+[vite]: https://github.com/vitejs/vite
