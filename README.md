@@ -58,7 +58,8 @@ put the server to production.
 
 For convenience, there are some built-in bahaviors to make it zero-config-able.
 
--   asdasdsa
+-   404.html or index.html will be used by default for not found page, you can
+    use it to build single page application
 
 ### License
 

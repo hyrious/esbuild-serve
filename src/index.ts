@@ -1,6 +1,7 @@
 import { lstatSync } from "fs";
 import { basename, dirname, resolve } from "path";
 import { listenAndServe } from "./util/listenAndServe";
+import { Config } from "./util/types";
 
 /**
  * Start a dev server.
@@ -22,9 +23,10 @@ export function serve(argv = process.argv.slice(2)) {
         console.log("https://github.com/hyrious/esbuild-serve");
     }
 
-    const config = {
+    const config: Config = {
         dir: ".",
         single: "",
+        options: {},
     };
     const dir_or_file = argv[0];
     try {

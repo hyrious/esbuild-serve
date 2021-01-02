@@ -46,7 +46,7 @@ export function createRequestListener(config: Config) {
             if (fileMap.has(pathname)) {
                 const path = fileMap.get(pathname);
                 const file = resolveFilePath(path, config);
-                const js = await build(file);
+                const js = await build(file, config.options);
                 return sendJs(res, js);
             }
 
@@ -64,10 +64,10 @@ export function createRequestListener(config: Config) {
                     sendText(res, text);
                 }
             } catch {
-                notFound(res);
+                await notFound(res);
             }
         } else {
-            notFound(res);
+            await notFound(res);
         }
     };
 }
