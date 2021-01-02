@@ -24,7 +24,7 @@ export function createRequestListener(config: Config) {
     });
 
     return async (req: IncomingMessage, res: ServerResponse) => {
-        const url = new URL(req.url, "http://localhost/");
+        const url = new URL(req.url!, "http://localhost/");
         const pathname = url.pathname;
 
         if (req.method === "GET") {
@@ -45,7 +45,7 @@ export function createRequestListener(config: Config) {
 
             if (fileMap.has(pathname)) {
                 const path = fileMap.get(pathname);
-                const file = resolveFilePath(path, config);
+                const file = resolveFilePath(path!, config);
                 const js = await build(file, config.options);
                 return sendJs(res, js);
             }

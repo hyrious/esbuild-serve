@@ -3,8 +3,11 @@
     "compilerOptions": {
         "lib": ["ESNext"],
         "downlevelIteration": true,
+        "esModuleInterop": true,
         "declaration": true,
         "emitDeclarationOnly": true,
-        "outDir": "../dist"
+        "outDir": "../dist",
+        "strictNullChecks": true,
+        "skipLibCheck": true
     }
 }

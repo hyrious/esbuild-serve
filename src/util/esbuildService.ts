@@ -12,7 +12,7 @@ export async function build(entry: string, options?: BuildOptions) {
     return new Promise<string>((resolve) => {
         file.task(async (outfile) => {
             try {
-                await service.build({
+                await service!.build({
                     entryPoints: [entry],
                     sourcemap: "inline",
                     bundle: true,
