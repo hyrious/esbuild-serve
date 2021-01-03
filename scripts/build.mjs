@@ -5,7 +5,7 @@ import { execSync } from "child_process";
 const commonConfig = {
     bundle: true,
     platform: "node",
-    external: ["esbuild", "chokidar", "tempy"],
+    external: ["esbuild", "chokidar", "tempy", "minimist"],
 };
 
 console.log("[esbuild] building dist/*.js");
