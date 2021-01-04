@@ -1,6 +1,6 @@
 ## esbuild-serve
 
-[GitHub Repo](https://github.com/hyrious/esbuild-serve/)
+[![GitHub Repo](https://img.shields.io/badge/github-hyrious/esbuild--serve-blue)](https://github.com/hyrious/esbuild-serve/) ![total lines](https://img.shields.io/tokei/lines/github/hyrious/esbuild-serve) [![npm package](https://img.shields.io/npm/v/@hyrious/esbuild-serve)](https://www.npmjs.com/package/@hyrious/esbuild-serve) [![install size](https://packagephobia.com/badge?p=@hyrious/esbuild-serve)](https://packagephobia.com/result?p=@hyrious/esbuild-serve)
 
 ### Install
 
