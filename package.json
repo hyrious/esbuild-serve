@@ -1,6 +1,6 @@
 {
     "name": "@hyrious/esbuild-serve",
-    "version": "0.1.5",
+    "version": "0.1.6",
     "description": "simple watch and reload server with esbuild",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
