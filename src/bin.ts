@@ -1,11 +1,12 @@
 import { lstatSync } from "fs";
 import minimist from "minimist";
 import { basename, dirname, resolve } from "path";
-import { serve } from ".";
+import { serve, build, defaultConfig } from ".";
 import { Config } from "./util/types";
 
 const args = minimist(process.argv.slice(2));
 
+// esbuild-serve --help
 if (args.help) {
     console.log("Currently esbuild-serve has nothing to config.");
     console.log("Feel free to raise an issue at");
@@ -14,11 +15,7 @@ if (args.help) {
 }
 
 try {
-    const config: Config = {
-        dir: ".",
-        single: "",
-        options: {},
-    };
+    const config: Config = { ...defaultConfig };
 
     const dir_or_file = args._[0] ?? ".";
     const stat = lstatSync(dir_or_file);
@@ -37,7 +34,11 @@ try {
         config.options.jsxFactory = "h";
     }
 
-    serve(config);
+    if (args.build) {
+        build(config);
+    } else {
+        serve(config);
+    }
 } catch {
     console.error("don't know what to serve");
     process.exit(1);

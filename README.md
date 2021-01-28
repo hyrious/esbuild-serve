@@ -27,9 +27,8 @@ Inside your front-end project, given such directory structure:
 ```
 (root).
     /index.html
-        (inner text)
-        <script src="https://cdn/to/react.min.js"></script>
-        <script data-src="main.tsx" src="main.js"></script>...
+        ...(inner text)...
+        <script data-src="main.tsx" type="module" src="main.js"></script>
     /main.tsx
 ```
 
@@ -60,11 +59,13 @@ For convenience, there are some built-in bahaviors to make it zero-config-able.
 
 -   404.html or index.html will be used by default for not found page, you can
     use it to build single page application.
+-   with `--build` (notice to put the dir/index.html before this option), it
+    bundles your files.
 
 ### Todo
 
-- [x] No HMR, use [vite][] if you need it.
-- Raise an issue if you need something.
+-   No HMR, use [vite][] if you need it.
+-   Raise an issue if you need something.
 
 ### License
 

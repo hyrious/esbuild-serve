@@ -1,6 +1,6 @@
 {
     "name": "@hyrious/esbuild-serve",
-    "version": "0.1.6",
+    "version": "0.1.7",
     "description": "simple watch and reload server with esbuild",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -35,7 +35,7 @@
     },
     "devDependencies": {
         "@types/minimist": "^1.2.1",
-        "@types/node": "^14.14.17",
+        "@types/node": "^14.14.22",
         "rimraf": "^3.0.2",
         "typescript": "^4.1.3"
     },
