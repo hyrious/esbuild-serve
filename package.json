@@ -1,6 +1,6 @@
 {
     "name": "@hyrious/esbuild-serve",
-    "version": "0.1.7",
+    "version": "0.1.8",
     "description": "simple watch and reload server with esbuild",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -20,7 +20,9 @@
         "type": "git",
         "url": "git+https://github.com/hyrious/esbuild-serve.git"
     },
-    "keywords": [],
+    "keywords": [
+        "esbuild"
+    ],
     "author": "hyrious",
     "license": "MIT",
     "bugs": {

@@ -18,3 +18,7 @@ export function sendHtml(res: ServerResponse, text: string) {
 export function sendJs(res: ServerResponse, text: string) {
     return sendWithType(res, "text/javascript", text);
 }
+
+export function sendCss(res: ServerResponse, text: string) {
+    return sendWithType(res, "text/css", text);
+}

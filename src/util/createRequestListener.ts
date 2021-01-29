@@ -10,7 +10,7 @@ import { resolveFilePath } from "./resolveFilePath";
 import { resolveScripts } from "./resolveScripts";
 import { sendClient } from "./sendClient";
 import { sendServer } from "./sendServer";
-import { sendHtml, sendJs, sendText } from "./sendWithType";
+import { sendCss, sendHtml, sendJs, sendText } from "./sendWithType";
 import { Config } from "./types";
 
 export function createRequestListener(config: Config) {
@@ -60,6 +60,8 @@ export function createRequestListener(config: Config) {
                         fileMap.set(key, value);
                     }
                     sendHtml(res, text);
+                } else if (file.endsWith(".css")) {
+                    sendCss(res, text);
                 } else {
                     sendText(res, text);
                 }
