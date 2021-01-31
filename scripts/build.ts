@@ -1,25 +1,26 @@
-import esbuild from "esbuild";
+import { build, BuildOptions } from "esbuild";
 import { performance } from "perf_hooks";
 import { execSync } from "child_process";
+import pkg from "../package.json";
 
-const commonConfig = {
+const commonConfig: Partial<BuildOptions> = {
     bundle: true,
     platform: "node",
-    external: ["esbuild", "chokidar", "tempy", "minimist"],
+    external: Object.keys(pkg.dependencies),
+    sourcemap: true,
 };
 
 console.log("[esbuild] building dist/*.js");
 const t = performance.now();
 Promise.all([
-    esbuild.build({
+    build({
         ...commonConfig,
         entryPoints: ["src/index.ts"],
         outfile: "dist/index.js",
     }),
-    esbuild.build({
+    build({
         ...commonConfig,
         minify: true,
-        sourcemap: true,
         entryPoints: ["src/bin.ts"],
         outfile: "dist/bin.js",
         banner: "#!/usr/bin/env node",

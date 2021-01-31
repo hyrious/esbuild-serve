@@ -37,9 +37,7 @@ export async function build(config?: Config) {
     }
     const service = await startService();
     let tasks: Promise<unknown>[] = [];
-    for (const [out, entry] of resolveScripts(
-        fs.readFileSync(indexHtml, "utf-8")
-    )) {
+    for (const [out, entry] of resolveScripts(fs.readFileSync(indexHtml, "utf-8"))) {
         let outfile = out;
         if (outfile === entry) {
             outfile += ".js";

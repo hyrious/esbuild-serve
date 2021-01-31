@@ -1,6 +1,6 @@
 {
     "name": "@hyrious/esbuild-serve",
-    "version": "0.1.8",
+    "version": "0.1.9",
     "description": "simple watch and reload server with esbuild",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -12,7 +12,7 @@
     ],
     "scripts": {
         "test": "cd test && yarn run dev",
-        "build": "yarn clean && node scripts/build.mjs",
+        "build": "yarn clean && esbuild-dev scripts/build.ts",
         "build:types": "tsc -p src",
         "clean": "rimraf dist"
     },
@@ -32,10 +32,10 @@
     "dependencies": {
         "chokidar": "latest",
         "esbuild": "latest",
-        "minimist": "latest",
-        "tempy": "latest"
+        "minimist": "latest"
     },
     "devDependencies": {
+        "@hyrious/esbuild-dev": "^0.1.8",
         "@types/minimist": "^1.2.1",
         "@types/node": "^14.14.22",
         "rimraf": "^3.0.2",
