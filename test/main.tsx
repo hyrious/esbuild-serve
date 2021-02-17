@@ -1,9 +1,4 @@
-import {
-    h,
-    render,
-    useState,
-    useCallback,
-} from "https://cdn.jsdelivr.net/npm/fre@2.0.0-rc9/dist/fre.js";
+import { h, render, useState, useCallback } from "https://cdn.jsdelivr.net/npm/fre/dist/fre.js";
 
 function App() {
     const [count, setCount] = useState(0);

@@ -16,6 +16,7 @@ if (args.help) {
 
 try {
     const config: Config = { ...defaultConfig };
+    config.crazy = Boolean(args.crazy);
 
     const dir_or_file = args._[0] ?? ".";
     const stat = lstatSync(dir_or_file);

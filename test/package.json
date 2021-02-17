@@ -1,6 +1,6 @@
 {
     "private": true,
     "scripts": {
-        "dev": "node --enable-source-maps ../dist/bin.js"
+        "dev": "node --enable-source-maps ../dist/bin.js --crazy"
     }
 }

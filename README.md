@@ -61,6 +61,7 @@ For convenience, there are some built-in bahaviors to make it zero-config-able.
     use it to build single page application.
 -   with `--build` (notice to put the dir/index.html before this option), it
     bundles your files.
+-   with `--crazy`, it "reloads" the page by `head.innerHTML=` and `body.innerHTML=`.
 
 ### Todo
 

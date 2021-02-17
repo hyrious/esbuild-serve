@@ -14,12 +14,31 @@ import { sendCss, sendHtml, sendJs, sendText } from "./sendWithType";
 import { Config } from "./types";
 
 export function createRequestListener(config: Config) {
-    const clients = new Set<{ res: ServerResponse }>();
+    const clients = new Set<{
+        res: ServerResponse;
+        path: string | null;
+    }>();
     const fileMap = new Map<string, string>();
 
-    watch(config.dir).on("all", (_event, _path) => {
-        for (const { res } of clients) {
-            res.write(`data: {"type":"refresh"}\n\n`);
+    watch(config.dir).on("all", async (_event, _path) => {
+        for (const { res, path } of clients) {
+            if (config.crazy && path != null) {
+                const file = resolveFilePath(path, config);
+                const html = await readFile(file, "utf-8");
+                if (file.endsWith(".html")) {
+                    const dir = resolveDirname(path);
+                    for (const [k, v] of resolveScripts(html)) {
+                        const key = join(dir, k).replace(/\\/g, "/");
+                        const value = join(dir, v).replace(/\\/g, "/");
+                        fileMap.set(key, value);
+                    }
+                    res.write(`data: ${JSON.stringify({ type: "crazy", html })}\n\n`);
+                } else {
+                    res.write(`data: {"type":"refresh"}\n\n`);
+                }
+            } else {
+                res.write(`data: {"type":"refresh"}\n\n`);
+            }
         }
     });
 
@@ -33,9 +52,10 @@ export function createRequestListener(config: Config) {
             if (file === "/__client") {
                 return sendClient(res);
             } else if (file === "/__server") {
-                const client = { res };
+                const path = url.searchParams.get("path");
+                const client = { res, path };
                 clients.add(client);
-                req.connection.addListener("close", () => {
+                req.socket.addListener("close", () => {
                     clients.delete(client);
                 });
                 return sendServer(res);
