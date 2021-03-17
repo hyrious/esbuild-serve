@@ -2,23 +2,23 @@
 # yarn lockfile v1
 
 
-"@hyrious/esbuild-dev@^0.1.8":
-  version "0.1.8"
-  resolved "https://registry.npmjs.org/@hyrious/esbuild-dev/-/esbuild-dev-0.1.8.tgz#a2f9ae72b9fa11e6b8ae742349d3fd54b28f6889"
-  integrity sha512-JjLfI2SCEr3VXTqFoG1kgaBdFUx6NZHBK6IV4UWf3k39EyhL5U2rihi+B+vG8G916+W+eS9JQ+tCF+RusRhHkg==
+"@hyrious/esbuild-dev@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.npmjs.org/@hyrious/esbuild-dev/-/esbuild-dev-0.2.2.tgz#0cdb549d874b8029837453608124efda2d9fd03d"
+  integrity sha512-IjlmzQWaVqjY/MoTI5/kcFTiVF2OViyEhxwYqUroepM5TswyZd9oKPGSkEvfVf4C2l2r7wjsgrbnQm2cI9TLSA==
   dependencies:
     chokidar latest
-    esbuild latest
+    esbuild "^0.9.2"
 
 "@types/minimist@^1.2.1":
   version "1.2.1"
   resolved "https://registry.npmjs.org/@types/minimist/-/minimist-1.2.1.tgz#283f669ff76d7b8260df8ab7a4262cc83d988256"
   integrity sha512-fZQQafSREFyuZcdWFAExYjBiCL7AUCdgsk80iO0q4yihYYdcIiH28CcuPTGFgLOCC8RlW49GSQxdHwZP+I7CNg==
 
-"@types/node@^14.14.22":
-  version "14.14.28"
-  resolved "https://registry.npmjs.org/@types/node/-/node-14.14.28.tgz#cade4b64f8438f588951a6b35843ce536853f25b"
-  integrity sha512-lg55ArB+ZiHHbBBttLpzD07akz0QPrZgUODNakeC09i62dnrywr9mFErHuaPlB6I7z+sEbK+IYmplahvplCj2g==
+"@types/node@^14.14.35":
+  version "14.14.35"
+  resolved "https://registry.npmjs.org/@types/node/-/node-14.14.35.tgz#42c953a4e2b18ab931f72477e7012172f4ffa313"
+  integrity sha512-Lt+wj8NVPx0zUmUwumiVXapmaLUcAk3yPuHCFVXras9k5VT9TdhJqKqGVUQCD60OTMCl0qxJ57OiTL0Mic3Iag==
 
 anymatch@~3.1.1:
   version "3.1.1"
@@ -73,10 +73,10 @@ concat-map@0.0.1:
   resolved "https://registry.npmjs.org/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=
 
-esbuild@latest:
-  version "0.8.36"
-  resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.8.36.tgz#f5b7c61473721c7d53ffe7c88708e25f3b6182f3"
-  integrity sha512-kcUQB61Tf8rLJ3mOwP2ruWi/iFufaQcEs4No+JA6e7W2kMOtFExOsbyeFpEF6zNacwk2RF5fYUz5jfZwgn/SJg==
+esbuild@^0.9.2:
+  version "0.9.2"
+  resolved "https://registry.npmjs.org/esbuild/-/esbuild-0.9.2.tgz#7e9fde247c913ed8ee059e2648b0c53f7d00abe5"
+  integrity sha512-xE3oOILjnmN8PSjkG3lT9NBbd1DbxNqolJ5qNyrLhDWsFef3yTp/KTQz1C/x7BYFKbtrr9foYtKA6KA1zuNAUQ==
 
 fill-range@^7.0.1:
   version "7.0.1"
@@ -206,10 +206,10 @@ to-regex-range@^5.0.1:
   dependencies:
     is-number "^7.0.0"
 
-typescript@^4.1.5:
-  version "4.1.5"
-  resolved "https://registry.npmjs.org/typescript/-/typescript-4.1.5.tgz#123a3b214aaff3be32926f0d8f1f6e704eb89a72"
-  integrity sha512-6OSu9PTIzmn9TCDiovULTnET6BgXtDYL4Gg4szY+cGsc3JP1dQL8qvE8kShTRx1NIw4Q9IBHlwODjkjWEtMUyA==
+typescript@^4.2.3:
+  version "4.2.3"
+  resolved "https://registry.npmjs.org/typescript/-/typescript-4.2.3.tgz#39062d8019912d43726298f09493d598048c1ce3"
+  integrity sha512-qOcYwxaByStAWrBf4x0fibwZvMRG+r4cQoTjbPtUlrWjBHbmCAww1i448U0GJ+3cNNEtebDteo/cHOR3xJ4wEw==
 
 wrappy@1:
   version "1.0.2"

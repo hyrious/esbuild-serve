@@ -23,7 +23,7 @@ Promise.all([
         minify: true,
         entryPoints: ["src/bin.ts"],
         outfile: "dist/bin.js",
-        banner: "#!/usr/bin/env node",
+        banner: { js: "#!/usr/bin/env node" },
     }),
 ]).catch(console.error);
 console.log("[esbuild] done in", performance.now() - t, "ms");

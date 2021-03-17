@@ -1,24 +1,18 @@
-import { BuildOptions, Service, startService } from "esbuild";
+import esbuild, { BuildOptions } from "esbuild";
 import { readFile } from "fs/promises";
 import os from "os";
 import fs from "fs";
 import { join } from "path";
-
-let service: Service | undefined;
 
 function newTempFileName(): string {
     return join(os.tmpdir(), Math.random().toString(36).substring(2) + ".js");
 }
 
 export async function build(entry: string, options?: BuildOptions) {
-    if (service == null) {
-        service = await startService();
-    }
-
     return new Promise<string>(async (resolve) => {
         const outfile = newTempFileName();
         try {
-            await service!.build({
+            await esbuild.build({
                 entryPoints: [entry],
                 sourcemap: "inline",
                 bundle: true,

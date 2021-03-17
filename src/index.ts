@@ -1,5 +1,5 @@
 import fs from "fs";
-import { startService } from "esbuild";
+import esbuild from "esbuild";
 import { listenAndServe } from "./util/listenAndServe";
 import { resolveFilePath } from "./util/resolveFilePath";
 import { resolveScripts } from "./util/resolveScripts";
@@ -35,7 +35,6 @@ export async function build(config?: Config) {
         console.log("not found index.html, can not know entry points");
         return;
     }
-    const service = await startService();
     let tasks: Promise<unknown>[] = [];
     for (const [out, entry] of resolveScripts(fs.readFileSync(indexHtml, "utf-8"))) {
         let outfile = out;
@@ -43,7 +42,7 @@ export async function build(config?: Config) {
             outfile += ".js";
         }
         tasks.push(
-            service.build({
+            esbuild.build({
                 entryPoints: [join(config.dir, entry)],
                 sourcemap: true,
                 bundle: true,
@@ -54,5 +53,4 @@ export async function build(config?: Config) {
         );
     }
     await Promise.allSettled(tasks);
-    service.stop();
 }
