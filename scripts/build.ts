@@ -1,33 +1,23 @@
-import { build, BuildOptions } from "esbuild";
-import { performance } from "perf_hooks";
-import { execSync } from "child_process";
+// n.b. use @hyrious/esbuild-dev to run this file
+import esbuild, { BuildOptions } from "esbuild";
 import pkg from "../package.json";
 
-const commonConfig: Partial<BuildOptions> = {
-    bundle: true,
-    platform: "node",
-    external: Object.keys(pkg.dependencies),
-    sourcemap: true,
+const common: BuildOptions = {
+  bundle: true,
+  platform: "node",
+  external: Object.keys(pkg.dependencies),
 };
 
-console.log("[esbuild] building dist/*.js");
-const t = performance.now();
-Promise.all([
-    build({
-        ...commonConfig,
-        entryPoints: ["src/index.ts"],
-        outfile: "dist/index.js",
-    }),
-    build({
-        ...commonConfig,
-        minify: true,
-        entryPoints: ["src/bin.ts"],
-        outfile: "dist/bin.js",
-        banner: { js: "#!/usr/bin/env node" },
-    }),
-]).catch(console.error);
-console.log("[esbuild] done in", performance.now() - t, "ms");
-if (process.argv[2] === "-t") {
-    console.log("[tsc] emit declaration file");
-    execSync("yarn build:types");
-}
+esbuild.build({
+  ...common,
+  entryPoints: ["src/index.ts"],
+  outfile: "dist/index.js",
+});
+
+esbuild.build({
+  ...common,
+  entryPoints: ["src/bin.ts"],
+  outfile: "dist/bin.js",
+  minify: true,
+  banner: { js: "#!/usr/bin/env node" },
+});

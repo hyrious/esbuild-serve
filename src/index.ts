@@ -1,56 +1,82 @@
-import fs from "fs";
 import esbuild from "esbuild";
-import { listenAndServe } from "./util/listenAndServe";
-import { resolveFilePath } from "./util/resolveFilePath";
-import { resolveScripts } from "./util/resolveScripts";
-import { Config } from "./util/types";
-import { join } from "path";
+import chokidar from "chokidar";
+import { userConfig } from "./config";
+import { createServer as createHTTPServer, request, ServerResponse } from "http";
+import { getOutfile } from "./utils";
+export { defineConfig, UserConfig } from "./config";
 
-export const defaultConfig: Config = {
-    dir: ".",
-    single: "",
-    options: {
-        format: "esm",
-    },
-};
+export async function createServer() {
+  const config = await userConfig();
+  const { host, port, stop, wait } = await esbuild.serve(config.serve, config.build);
+  // console.log(`[esbuild] serving http://${host}:${port}`);
+  const clients = new Set<ServerResponse>();
 
-function getConfig(config?: Config) {
-    return Object.assign(defaultConfig, config ?? {});
-}
+  chokidar.watch(config.serve.servedir ?? ".").on("change", () => {
+    for (const client of clients) {
+      client.write("event: reload\ndata\n\n");
+    }
+  });
 
-/**
- * Start a dev server.
- * @param config - tiny configuration.
- * @example
- * serve({ dir: '.' })
- */
-export function serve(config?: Config) {
-    return listenAndServe(getConfig(config));
-}
+  const server = createHTTPServer((req, res) => {
+    const options = {
+      hostname: host,
+      port,
+      path: req.url,
+      method: req.method,
+      headers: req.headers,
+    };
 
-export async function build(config?: Config) {
-    config = getConfig(config);
-    const indexHtml = resolveFilePath("/", config);
-    if (!fs.existsSync(indexHtml)) {
-        console.log("not found index.html, can not know entry points");
+    const proxyReq = request(options, (proxyRes) => {
+      if (req.url === "/" || (proxyRes.statusCode === 404 && req.url === "/index.html")) {
+        res.writeHead(200, { "Content-Type": "text/html" });
+        res.end(`<!DOCTYPE html><html><head><script type="module">
+  const source = new EventSource("__server")
+  source.onopen = () => {
+    console.log("[esbuild-serve] connected")
+  }
+  source.addEventListener("reload", () => {
+    location.reload()
+  })
+</script><title>App</title></head>
+<body><div id="app"></div>
+<script type="module" src="${getOutfile(config)}"></script>
+</body></html>`);
         return;
+      }
+
+      if (req.url === "/__server") {
+        res.writeHead(200, {
+          "Content-Type": "text/event-stream",
+          "Cache-Control": "no-cache",
+          Connection: "keep-alive",
+        });
+        res.write(": hello world!\n\n");
+        clients.add(res);
+        return;
+      }
+
+      res.writeHead(proxyRes.statusCode ?? 200, proxyRes.headers);
+      proxyRes.pipe(res, { end: true });
+    });
+
+    req.pipe(proxyReq, { end: true });
+  }).listen(3000);
+  console.log(`[esbuild-serve] serving http://localhost:${3000}`);
+
+  process.stdin.on("data", async (e) => {
+    if (e.toString() === "exit\n") {
+      stop();
+      await wait;
+      server.close();
+      console.log("[esbuild-serve] stopped");
+      process.stdin.pause();
     }
-    let tasks: Promise<unknown>[] = [];
-    for (const [out, entry] of resolveScripts(fs.readFileSync(indexHtml, "utf-8"))) {
-        let outfile = out;
-        if (outfile === entry) {
-            outfile += ".js";
-        }
-        tasks.push(
-            esbuild.build({
-                entryPoints: [join(config.dir, entry)],
-                sourcemap: true,
-                bundle: true,
-                outfile: join(config.dir, outfile),
-                minify: true,
-                ...config.options,
-            })
-        );
-    }
-    await Promise.allSettled(tasks);
+  });
+
+  return server;
+}
+
+export async function build() {
+  const config = await userConfig();
+  await esbuild.build(config.build);
 }
