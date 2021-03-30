@@ -69,7 +69,7 @@ export async function createServer() {
       await wait;
       server.close();
       console.log("[esbuild-serve] stopped");
-      process.stdin.pause();
+      process.exit();
     }
   });
 

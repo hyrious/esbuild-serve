@@ -23,6 +23,6 @@
   },
   "dependencies": {
     "chokidar": "^3.5.1",
-    "esbuild": "^0.10.2"
+    "esbuild": "^0.11.1"
   }
 }
