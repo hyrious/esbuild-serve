@@ -4,12 +4,12 @@
 
 ### Usage
 
-```shell-session
+```bash
 > npx @hyrious/esbuild-serve
 [esbuild-serve] serving http://localhost:3000
 ```
 
-```shell-session
+```bash
 > npx @hyrious/esbuild-serve --build
 ```
 

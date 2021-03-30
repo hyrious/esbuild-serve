@@ -1,5 +1,7 @@
 import esbuild from "esbuild";
 import chokidar from "chokidar";
+import fs from "fs";
+import path from "path";
 import { userConfig } from "./config";
 import { createServer as createHTTPServer, request, ServerResponse } from "http";
 import { getOutfile } from "./utils";
@@ -10,14 +12,17 @@ export async function createServer() {
   const { host, port, stop, wait } = await esbuild.serve(config.serve, config.build);
   // console.log(`[esbuild] serving http://${host}:${port}`);
   const clients = new Set<ServerResponse>();
+  const cwd = config.serve.servedir ?? ".";
 
-  chokidar.watch(config.serve.servedir ?? ".").on("change", () => {
+  chokidar.watch(cwd).on("change", () => {
     for (const client of clients) {
       client.write("event: reload\ndata\n\n");
     }
   });
 
   const server = createHTTPServer((req, res) => {
+    const isIndexHTMLexist = fs.existsSync(path.join(cwd, "index.html"));
+
     const options = {
       hostname: host,
       port,
@@ -27,7 +32,10 @@ export async function createServer() {
     };
 
     const proxyReq = request(options, (proxyRes) => {
-      if (req.url === "/" || (proxyRes.statusCode === 404 && req.url === "/index.html")) {
+      if (
+        (req.url === "/" && !isIndexHTMLexist) ||
+        (proxyRes.statusCode === 404 && req.url === "/index.html")
+      ) {
         res.writeHead(200, { "Content-Type": "text/html" });
         res.end(`<!DOCTYPE html><html><head><script type="module">
   const source = new EventSource("__server")
