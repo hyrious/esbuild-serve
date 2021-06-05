@@ -19,7 +19,7 @@ This is a simple wrapper of `esbuild --serve`, which enables auto reload and zer
 
 **Note**: By default, it looks for the only one bundle target in the order of `{index,main,src/index,src/main}.{js,jsx,ts,tsx}`. Bundle result is `index.js` by default.
 
-Difference to Vite: Vite doesn't do bundle in development for the best speed. This tool does bundle everything into a single file.
+Difference to [vite]: Vite doesn't do bundle in development for the best speed. This tool does bundle everything into a single file.
 
 ### Config
 
