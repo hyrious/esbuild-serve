@@ -1,8 +1,9 @@
 {
   "name": "@hyrious/esbuild-serve",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "simple watch and reload server with esbuild",
   "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "types": "src/index.ts",
   "bin": {
     "esbuild-serve": "dist/bin.js"
@@ -15,16 +16,18 @@
   "author": "hyrious <hyrious@outlook.com> (https://hyrious.me)",
   "license": "MIT",
   "scripts": {
-    "build": "esbuild-dev scripts/build.ts"
+    "build": "esbuild-dev scripts/build.ts",
+    "test": "esbuild-dev -w src/bin.ts test"
   },
   "devDependencies": {
-    "@hyrious/esbuild-dev": "^0.3.2",
-    "@types/node": "^15.12.1",
-    "@types/remarkable": "^2.0.2",
-    "shiki": "^0.9.3"
+    "@hyrious/esbuild-dev": "^0.3.7",
+    "@types/node": "^15.12.2"
   },
   "dependencies": {
     "chokidar": "^3.5.1",
-    "esbuild": "^0.12.6"
+    "esbuild": "^0.12.8"
+  },
+  "engines": {
+    "node": ">=14"
   }
 }

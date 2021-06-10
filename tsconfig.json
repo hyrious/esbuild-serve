@@ -6,6 +6,8 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "moduleResolution": "Node",
-    "downlevelIteration": true
+    "lib": ["ESNext"],
+    "module": "ESNext",
+    "target": "ESNext"
   }
 }
