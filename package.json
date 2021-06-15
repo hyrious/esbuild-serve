@@ -20,7 +20,7 @@
     "test": "esbuild-dev -w src/bin.ts test"
   },
   "devDependencies": {
-    "@hyrious/esbuild-dev": "^0.3.7",
+    "@hyrious/esbuild-dev": "^0.3.8",
     "@types/node": "^15.12.2"
   },
   "dependencies": {

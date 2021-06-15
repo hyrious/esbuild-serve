@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { serve } from ".";
 import { loadConfig } from "./config";
+import exampleHTML from "./example.html.txt";
 import { lookupIndexHtml, searchEntries } from "./utils";
 
 function printCommandLine(servedir: string | undefined, options: BuildOptions) {
@@ -48,6 +49,11 @@ async function main() {
   const args = process.argv.slice(2);
   if (args.includes("--help") || args.includes("-h")) {
     console.log("usage: esbuild-serve [dir]");
+    return;
+  }
+
+  if (args[0] === "init") {
+    fs.writeFileSync("index.html", exampleHTML);
     return;
   }
 

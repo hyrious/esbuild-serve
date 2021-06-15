@@ -24,8 +24,8 @@ which enables auto reload and zero-config development.
 
 **Difference to [vite]**:
 
-1. Vite doesn't do bundle in development for the best speed. This tool does bundle
-   everything into a single file.
+1. Vite doesn't do bundle (at least, your code) in development for the best speed.
+   This tool does bundle everything into a single file.
 2. `index.html` in vite is part of your source code, development and production will
    treat it differently. While in this tool, `index.html` is part of your production site.
 3. You can have multiple entry points, but if you do that, their output file names
