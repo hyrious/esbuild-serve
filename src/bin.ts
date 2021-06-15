@@ -1,4 +1,5 @@
 import type { BuildOptions } from "esbuild";
+import esbuild from "esbuild";
 import fs from "fs";
 import path from "path";
 import { serve } from ".";
@@ -59,6 +60,18 @@ async function main() {
 
   const dir: string | undefined = !args[0]?.startsWith("-") ? args[0] : undefined;
   const config = await loadConfig();
+  if (args.includes("--build")) {
+    const indexHTML = lookupIndexHtml(dir);
+    if (!indexHTML) {
+      console.warn("not found index.html");
+    } else {
+      const entries = searchEntries(fs.readFileSync(indexHTML, "utf8"), dir);
+      const finalConfig: BuildOptions = { ...entries, ...config };
+      esbuild.buildSync(finalConfig);
+    }
+    return;
+  }
+
   if (args.includes("--dry-run")) {
     const indexHTML = lookupIndexHtml(dir);
     if (!indexHTML) {
