@@ -5,7 +5,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-[Unreleased]
+## [Unreleased]
+### Fixed
+- `bundle: true` on build.
 
 ## [0.3.6] - 2021-06-16
 ### Fixed
@@ -75,6 +77,7 @@ Nothing new, update the build script.
 ### Added
 - Basic support.
 
+[Unreleased]: https://github.com/hyrious/esbuild-serve/compare/v0.3.6...HEAD
 [0.3.6]: https://github.com/hyrious/esbuild-serve/compare/v0.3.5...v0.3.6
 [0.3.5]: https://github.com/hyrious/esbuild-serve/compare/v0.3.4...v0.3.5
 [0.3.4]: https://github.com/hyrious/esbuild-serve/compare/v0.3.3...v0.3.4

@@ -29,17 +29,8 @@ const injectHTML = `
   </script>
 `;
 
-export async function serve(dir = process.cwd(), config?: UserConfig) {
-  const indexHTML = lookupIndexHtml(dir);
-  if (!indexHTML) {
-    console.warn("not found index.html");
-  }
-  const servedir = indexHTML ? path.dirname(indexHTML) : dir;
-  const buildOptions = indexHTML && searchEntries(fs.readFileSync(indexHTML, "utf8"), servedir);
-  const { host, port, stop, wait } = await esbuild.serve(
-    { host: "localhost", servedir, ...config?.serve },
-    { bundle: true, ...buildOptions, ...config?.build }
-  );
+export async function serve(dir = process.cwd(), config: Required<UserConfig>) {
+  const { host, port, stop, wait } = await esbuild.serve(config.serve, config.build);
   // console.log(`[esbuild] serving http://${host}:${port}`);
 
   const clients = new Set<ServerResponse>();
