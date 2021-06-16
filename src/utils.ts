@@ -39,7 +39,7 @@ const scriptRE = /(<script\b(\s[^>]*>|>))(.*?)<\/script>/gims;
 const commentRE = /<!--(.|[\r\n])*?-->/;
 const srcRE = /\bsrc\s*=\s*(?:"([^"]+)"|'([^']+)'|([^\s'">]+))/im;
 
-function scanEntries(raw: string, dir = process.cwd()) {
+function scanEntries(raw: string, servedir = process.cwd()) {
   raw = raw.replace(commentRE, "");
   const src: string[] = [];
   for (let match; (match = scriptRE.exec(raw)); ) {
@@ -54,34 +54,40 @@ function scanEntries(raw: string, dir = process.cwd()) {
     return {};
   }
 
-  const entries: Record<string, string | undefined> = {};
-  for (const s of src) {
-    const basename = path.basename(s, path.extname(s));
-    entries[s] = lookupEntryPoint(basename, dir);
-  }
-
-  // also lookup possibleNames if there's only one entry
-  if (src.length === 1) {
-    for (const name of possibleNames) {
-      entries[src[0]] ||= lookupEntryPoint(name, dir);
-    }
-  }
+  const cwd = process.cwd();
+  const scanDirs = [servedir];
+  if (servedir !== cwd) scanDirs.push(cwd);
 
   const result: Record<string, string> = {};
+  for (const dir of scanDirs) {
+    const entries: Record<string, string | undefined> = {};
+    for (const s of src) {
+      const basename = path.basename(s, path.extname(s));
+      entries[s] = lookupEntryPoint(basename, dir);
+    }
 
-  for (const [k, v] of Object.entries(entries)) {
-    if (v) {
-      result[path.relative(process.cwd(), k)] = path.relative(process.cwd(), v);
-    } else {
-      console.warn("not found entry file for", k);
+    // also lookup possibleNames if there's only one entry
+    if (src.length === 1) {
+      for (const name of possibleNames) {
+        entries[src[0]] ||= lookupEntryPoint(name, dir);
+      }
+    }
+
+    for (const [k, v] of Object.entries(entries)) {
+      if (v && !(k in result)) result[k] = v;
     }
   }
 
-  return result;
+  const relativeResult: Record<string, string> = {};
+  for (const [k, v] of Object.entries(result)) {
+    relativeResult[path.relative(process.cwd(), k)] = path.relative(process.cwd(), v);
+  }
+
+  return relativeResult;
 }
 
-export function searchEntries(html: string, dir = process.cwd()): BuildOptions {
-  const entries = scanEntries(html, dir);
+export function searchEntries(html: string, servedir = process.cwd()): BuildOptions {
+  const entries = scanEntries(html, servedir);
   const outfiles = Object.keys(entries);
 
   // don't build anything :-)
@@ -93,7 +99,7 @@ export function searchEntries(html: string, dir = process.cwd()): BuildOptions {
   if (outfiles.length === 1) {
     return {
       entryPoints: [entries[outfiles[0]]],
-      outfile: path.relative(process.cwd(), path.join(dir, outfiles[0])),
+      outfile: path.relative(process.cwd(), path.join(servedir, outfiles[0])),
     };
   }
 
@@ -101,7 +107,8 @@ export function searchEntries(html: string, dir = process.cwd()): BuildOptions {
   const entryPoints: Record<string, string> = {};
   for (const outfile of outfiles) {
     const entry = entries[outfile];
-    entryPoints[path.dirname(outfile)] = entry;
+    const outdir = path.relative(process.cwd(), path.dirname(path.join(servedir, outfile)));
+    entryPoints[outdir] = entry;
   }
 
   return entryPoints;

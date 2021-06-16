@@ -65,7 +65,8 @@ async function main() {
     if (!indexHTML) {
       console.warn("not found index.html");
     } else {
-      const entries = searchEntries(fs.readFileSync(indexHTML, "utf8"), dir);
+      const servedir = indexHTML ? path.dirname(indexHTML) : dir;
+      const entries = searchEntries(fs.readFileSync(indexHTML, "utf8"), servedir);
       const finalConfig: BuildOptions = { ...entries, ...config };
       esbuild.buildSync(finalConfig);
     }
@@ -78,7 +79,7 @@ async function main() {
       console.warn("not found index.html");
     } else {
       const servedir = indexHTML ? path.dirname(indexHTML) : dir;
-      const entries = searchEntries(fs.readFileSync(indexHTML, "utf8"), dir);
+      const entries = searchEntries(fs.readFileSync(indexHTML, "utf8"), servedir);
       const finalConfig: BuildOptions = { ...entries, ...config };
       printCommandLine(servedir, finalConfig);
     }

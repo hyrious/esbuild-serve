@@ -35,10 +35,10 @@ export async function serve(dir = process.cwd(), config?: UserConfig) {
     console.warn("not found index.html");
   }
   const servedir = indexHTML ? path.dirname(indexHTML) : dir;
-  const buildOptions = indexHTML ? searchEntries(fs.readFileSync(indexHTML, "utf8"), dir) : {};
+  const buildOptions = indexHTML && searchEntries(fs.readFileSync(indexHTML, "utf8"), servedir);
   const { host, port, stop, wait } = await esbuild.serve(
     { host: "localhost", servedir, ...config?.serve },
-    { ...buildOptions, ...config?.build }
+    { bundle: true, ...buildOptions, ...config?.build }
   );
   // console.log(`[esbuild] serving http://${host}:${port}`);
 
