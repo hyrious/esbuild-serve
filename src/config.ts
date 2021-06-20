@@ -57,14 +57,14 @@ export function printCommandLine(servedir: string | undefined, options: BuildOpt
           args.push(`${out}=${JSON.stringify(src)}`);
         }
       }
+    } else if (k === "plugins") {
+      // skip plugins as we can not use them in command line
     } else {
       const key = "--" + k.replace(/(?<=[a-z])[A-Z]/g, (e) => "-" + e.toLowerCase());
       if (v === true) {
         args.push(key);
       } else if (v === false) {
         args.push(`${key}=false`);
-      } else if (typeof v === "string") {
-        args.push(`${key}=${JSON.stringify(v)}`);
       } else if (Array.isArray(v)) {
         for (const value of v) {
           args.push(`${key}:${JSON.stringify(value)}`);
@@ -73,6 +73,8 @@ export function printCommandLine(servedir: string | undefined, options: BuildOpt
         for (const [kk, value] of Object.entries(v)) {
           args.push(`${key}:${kk}=${JSON.stringify(value)}`);
         }
+      } else {
+        args.push(`${key}=${JSON.stringify(v)}`);
       }
     }
   }

@@ -1,10 +1,11 @@
 import chokidar from "chokidar";
 import esbuild from "esbuild";
-import fs from "fs";
 import http, { RequestOptions, ServerResponse } from "http";
-import path from "path";
 import { UserConfig } from "./types";
-import { lookupIndexHtml, searchEntries } from "./utils";
+
+export function defineConfig(config: UserConfig) {
+  return config;
+}
 
 const headInjectRE = /<\/head>/i;
 const injectHTML = `
@@ -34,6 +35,9 @@ export async function serve(dir = process.cwd(), config: Required<UserConfig>) {
   // console.log(`[esbuild] serving http://${host}:${port}`);
 
   const clients = new Set<ServerResponse>();
+  // NOTE: we watch all changes in "current" folder, which may be wrong.
+  //       wait for https://github.com/evanw/esbuild/issues/1072
+  //       to see if we have better choice.
   chokidar.watch(dir).on("change", () => {
     for (const client of clients) {
       client.write("event: reload\ndata\n\n");
@@ -95,7 +99,7 @@ export async function serve(dir = process.cwd(), config: Required<UserConfig>) {
   console.log(`[esbuild-serve] serving http://localhost:${3000}`);
 
   process.stdin.on("data", async (e) => {
-    if (e.toString() === "exit\n") {
+    if (e.toString().startsWith("exit")) {
       for (const client of clients) {
         client.end("event: down\ndata\n\n");
       }

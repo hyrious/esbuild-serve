@@ -3,11 +3,12 @@ import fs from "fs";
 import { serve } from ".";
 import { loadConfig, printCommandLine } from "./config";
 import exampleHTML from "./example.html.txt";
+import help from "./help.txt";
 
 async function main() {
   const args = process.argv.slice(2);
   if (args.includes("--help") || args.includes("-h")) {
-    return console.log("usage: esbuild-serve [dir]");
+    return console.log(help);
   }
 
   if (args[0] === "init") {

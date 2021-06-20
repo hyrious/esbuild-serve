@@ -5,6 +5,10 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "src/index.ts",
+  "exports": {
+    "require": "./dist/index.js",
+    "import": "./dist/index.mjs"
+  },
   "bin": {
     "esbuild-serve": "dist/bin.js"
   },
@@ -21,11 +25,11 @@
   },
   "devDependencies": {
     "@hyrious/esbuild-dev": "^0.3.8",
-    "@types/node": "^15.12.2"
+    "@types/node": "^15.12.4"
   },
   "dependencies": {
-    "chokidar": "^3.5.1",
-    "esbuild": "^0.12.8"
+    "chokidar": "^3.5.2",
+    "esbuild": "^0.12.9"
   },
   "engines": {
     "node": ">=14"
