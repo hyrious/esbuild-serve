@@ -17,10 +17,27 @@ function lookupFile(filename: string, dir = process.cwd()): string | undefined {
 }
 
 async function loadRawConfig() {
+  const pkgJson = lookupFile("package.json");
+  let external: string[] | undefined;
+  if (pkgJson) {
+    const pkg: { dependencies?: {}; devDependencies?: {} } = JSON.parse(
+      fs.readFileSync(pkgJson, "utf-8")
+    );
+    external = Object.keys({
+      ...pkg.dependencies,
+      ...pkg.devDependencies,
+    });
+  }
   for (const ext of possibleExts) {
     const file = lookupFile(`esbuild.config.${ext}`);
     if (file) {
-      return (await importFile(file)).default as UserConfig;
+      return (
+        await importFile(path.relative(process.cwd(), file), {
+          bundle: true,
+          platform: "node",
+          external,
+        })
+      ).default as UserConfig;
     }
   }
 }

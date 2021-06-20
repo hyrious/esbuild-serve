@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.3.9] - 2021-06-20
+### Fixed
+- Should handle `esbuild.config.ts` right.
+
+## [0.3.8] - 2021-06-20
+### Fixed
+- Export `defineConfig`.
+- Fix `exit` not work on windows.
+
 ## [0.3.7] - 2021-06-16
 ### Fixed
 - `bundle: true` on build.
@@ -79,7 +88,9 @@ Nothing new, update the build script.
 ### Added
 - Basic support.
 
-[Unreleased]: https://github.com/hyrious/esbuild-serve/compare/v0.3.7...HEAD
+[Unreleased]: https://github.com/hyrious/esbuild-serve/compare/v0.3.9...HEAD
+[0.3.9]: https://github.com/hyrious/esbuild-serve/compare/v0.3.8...v0.3.9
+[0.3.8]: https://github.com/hyrious/esbuild-serve/compare/v0.3.7...v0.3.8
 [0.3.7]: https://github.com/hyrious/esbuild-serve/compare/v0.3.6...v0.3.7
 [0.3.6]: https://github.com/hyrious/esbuild-serve/compare/v0.3.5...v0.3.6
 [0.3.5]: https://github.com/hyrious/esbuild-serve/compare/v0.3.4...v0.3.5

@@ -19,7 +19,7 @@ async function main() {
   const config = await loadConfig(dir);
   const buildOptions = config.build;
   if (args.includes("--build")) {
-    return esbuild.buildSync({ minify: true, ...buildOptions });
+    return await esbuild.build({ minify: true, ...buildOptions });
   }
 
   if (args.includes("--dry-run")) {
