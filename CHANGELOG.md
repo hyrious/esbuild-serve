@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.3.10] - 2021-06-21
+### Changed
+- Show better error message.
+
 ## [0.3.9] - 2021-06-20
 ### Fixed
 - Should handle `esbuild.config.ts` right.
@@ -88,7 +92,8 @@ Nothing new, update the build script.
 ### Added
 - Basic support.
 
-[Unreleased]: https://github.com/hyrious/esbuild-serve/compare/v0.3.9...HEAD
+[Unreleased]: https://github.com/hyrious/esbuild-serve/compare/v0.3.10...HEAD
+[0.3.10]: https://github.com/hyrious/esbuild-serve/compare/v0.3.9...v0.3.10
 [0.3.9]: https://github.com/hyrious/esbuild-serve/compare/v0.3.8...v0.3.9
 [0.3.8]: https://github.com/hyrious/esbuild-serve/compare/v0.3.7...v0.3.8
 [0.3.7]: https://github.com/hyrious/esbuild-serve/compare/v0.3.6...v0.3.7

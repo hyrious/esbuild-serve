@@ -1,5 +1,6 @@
 import type { BuildOptions } from "esbuild";
 import fs from "fs";
+import { IncomingMessage } from "http";
 import path from "path";
 
 function getFolders(dir = process.cwd()) {
@@ -112,4 +113,12 @@ export function searchEntries(html: string, servedir = process.cwd()): BuildOpti
   }
 
   return entryPoints;
+}
+
+export function text(res: IncomingMessage) {
+  return new Promise<string>((resolve) => {
+    const chunks: Buffer[] = [];
+    res.on("data", (chunk) => chunks.push(Buffer.from(chunk)));
+    res.on("end", () => resolve(Buffer.concat(chunks).toString("utf-8")));
+  });
 }

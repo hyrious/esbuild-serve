@@ -2,6 +2,7 @@ import chokidar from "chokidar";
 import esbuild from "esbuild";
 import http, { RequestOptions, ServerResponse } from "http";
 import { UserConfig } from "./types";
+import { text } from "./utils";
 
 export function defineConfig(config: UserConfig) {
   return config;
@@ -29,6 +30,14 @@ const injectHTML = `
     })
   </script>
 `;
+const errorHTML = `
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Error</title>
+${injectHTML}
+<body><pre>{content}</pre>
+`;
 
 export async function serve(dir = process.cwd(), config: Required<UserConfig>) {
   const { host, port, stop, wait } = await esbuild.serve(config.serve, config.build);
@@ -53,20 +62,24 @@ export async function serve(dir = process.cwd(), config: Required<UserConfig>) {
       headers: req.headers,
     };
 
-    const proxyReq = http.request(options, (proxyRes) => {
-      if (req.url === "/" || req.url === "/index.html") {
-        const chunks: Buffer[] = [];
-        proxyRes.on("data", (chunk) => chunks.push(Buffer.from(chunk)));
-        proxyRes.on("end", () => {
-          let html = Buffer.concat(chunks).toString("utf-8");
-          if (headInjectRE.test(html)) {
-            html = html.replace(headInjectRE, `${injectHTML}\n$&`);
-          } else {
-            html = injectHTML + "\n" + html;
-          }
-          res.writeHead(200, { "Content-Type": "text/html" });
-          res.end(html);
-        });
+    const isHTML = req.url?.endsWith("/") || req.url?.endsWith(".html");
+    const proxyReq = http.request(options, async (proxyRes) => {
+      const { statusCode = 200 } = proxyRes;
+      const isResponseOk = 200 <= statusCode && statusCode <= 399;
+      if (isHTML && (isResponseOk || statusCode === 404)) {
+        let html = await text(proxyRes);
+        if (headInjectRE.test(html)) {
+          html = html.replace(headInjectRE, `${injectHTML}\n$&`);
+        } else {
+          html = injectHTML + "\n" + html;
+        }
+        res.writeHead(200, { "Content-Type": "text/html" });
+        res.end(html);
+      } else if (statusCode >= 500) {
+        const str = await text(proxyRes);
+        const html = errorHTML.replace("{content}", str);
+        res.writeHead(200, { "Content-Type": "text/html" });
+        res.end(html);
       } else {
         res.writeHead(proxyRes.statusCode ?? 200, proxyRes.headers);
         proxyRes.pipe(res, { end: true });
