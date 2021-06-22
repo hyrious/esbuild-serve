@@ -109,7 +109,7 @@ export async function serve(dir = process.cwd(), config: Required<UserConfig>) {
   });
 
   server.listen(3000);
-  console.log(`[esbuild-serve] serving http://localhost:${3000}`);
+  console.log(`[esbuild-serve] serving http://localhost:3000`);
 
   process.stdin.on("data", async (e) => {
     if (e.toString().startsWith("exit")) {

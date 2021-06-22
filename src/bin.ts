@@ -1,5 +1,6 @@
 import esbuild from "esbuild";
 import fs from "fs";
+import cp from "child_process";
 import { serve } from ".";
 import { loadConfig, printCommandLine } from "./config";
 import exampleHTML from "./example.html.txt";
@@ -26,7 +27,16 @@ async function main() {
     return printCommandLine(config.serve?.servedir, buildOptions);
   }
 
-  return serve(dir, config);
+  const server = await serve(dir, config);
+  if (args.includes("--open")) {
+    if (process.platform === "darwin") {
+      cp.execSync("open http://localhost:3000");
+    }
+    if (process.platform === "win32") {
+      cp.execSync(`start "" http://localhost:3000`);
+    }
+  }
+  return server;
 }
 
 main().catch(console.error);
