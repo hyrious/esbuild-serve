@@ -39,15 +39,21 @@ function lookupEntryPoint(name: string, dir = process.cwd()) {
 const scriptRE = /(<script\b(\s[^>]*>|>))(.*?)<\/script>/gims;
 const commentRE = /<!--(.|[\r\n])*?-->/;
 const srcRE = /\bsrc\s*=\s*(?:"([^"]+)"|'([^']+)'|([^\s'">]+))/im;
+const externalRE = /^(?:https?|ftp):\/\//i;
 
 function scanEntries(raw: string, servedir = process.cwd()) {
   raw = raw.replace(commentRE, "");
-  const src: string[] = [];
+  let src: string[] = [];
   for (let match; (match = scriptRE.exec(raw)); ) {
     const [, openTag] = match;
     const srcMatch = openTag.match(srcRE);
     if (srcMatch) {
-      src.push(srcMatch[1] || srcMatch[2] || srcMatch[3]);
+      let s = srcMatch[1] || srcMatch[2] || srcMatch[3];
+      if (externalRE.test(s)) continue;
+      s = (s.startsWith("/") ? "." : "") + s;
+      const t = path.join(servedir, s);
+      if (fs.existsSync(t) && fs.statSync(t).isFile()) continue;
+      src.push(s);
     }
   }
   // no <script>
