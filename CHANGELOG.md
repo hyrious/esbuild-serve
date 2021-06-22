@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.3.11] - 2021-06-22
+### Added
+- `--open` to open browser.
+
+### Fixed
+- Exclude scripts like `https://...` or existing ones.
+
 ## [0.3.10] - 2021-06-21
 ### Changed
 - Show better error message.
@@ -92,7 +99,8 @@ Nothing new, update the build script.
 ### Added
 - Basic support.
 
-[Unreleased]: https://github.com/hyrious/esbuild-serve/compare/v0.3.10...HEAD
+[Unreleased]: https://github.com/hyrious/esbuild-serve/compare/v0.3.11...HEAD
+[0.3.11]: https://github.com/hyrious/esbuild-serve/compare/v0.3.10...v0.3.11
 [0.3.10]: https://github.com/hyrious/esbuild-serve/compare/v0.3.9...v0.3.10
 [0.3.9]: https://github.com/hyrious/esbuild-serve/compare/v0.3.8...v0.3.9
 [0.3.8]: https://github.com/hyrious/esbuild-serve/compare/v0.3.7...v0.3.8
