@@ -17,6 +17,17 @@ Build your static site:
 > npx @hyrious/esbuild-serve --build
 ```
 
+Other options:
+
+```
+> npx @hyrious/esbuild-serve --help
+usage:
+  esbuild-serve [--open] [servedir]   -- serve a folder
+  esbuild-serve --build [servedir]    -- bundle scripts
+  esbuild-serve --dry-run [servedir]  -- print `esbuild --serve ...`
+  esbuild-serve init                  -- create an example index.html
+```
+
 ### Description
 
 This is a simple wrapper of [`esbuild --serve`](https://esbuild.github.io/api/#serve),
