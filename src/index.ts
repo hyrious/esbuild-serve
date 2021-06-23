@@ -1,8 +1,8 @@
 import chokidar from "chokidar";
 import esbuild from "esbuild";
-import http, { RequestOptions, ServerResponse } from "http";
+import http, { IncomingMessage, RequestOptions, ServerResponse } from "http";
 import { UserConfig } from "./types";
-import { text } from "./utils";
+import { parse, text } from "./utils";
 
 export function defineConfig(config: UserConfig) {
   return config;
@@ -53,6 +53,17 @@ export async function serve(dir = process.cwd(), config: Required<UserConfig>) {
     }
   });
 
+  async function indexHtml(proxyRes: IncomingMessage, res: ServerResponse) {
+    let html = await text(proxyRes);
+    if (headInjectRE.test(html)) {
+      html = html.replace(headInjectRE, `${injectHTML}\n$&`);
+    } else {
+      html = injectHTML + "\n" + html;
+    }
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.end(html);
+  }
+
   const server = http.createServer((req, res) => {
     const options: RequestOptions = {
       hostname: host,
@@ -62,19 +73,18 @@ export async function serve(dir = process.cwd(), config: Required<UserConfig>) {
       headers: req.headers,
     };
 
-    const isHTML = req.url?.endsWith("/") || req.url?.endsWith(".html");
+    const pathname = parse(req.url);
+    const isHTML = pathname.endsWith("/") || pathname.endsWith(".html");
     const proxyReq = http.request(options, async (proxyRes) => {
       const { statusCode = 200 } = proxyRes;
       const isResponseOk = 200 <= statusCode && statusCode <= 399;
       if (isHTML && (isResponseOk || statusCode === 404)) {
-        let html = await text(proxyRes);
-        if (headInjectRE.test(html)) {
-          html = html.replace(headInjectRE, `${injectHTML}\n$&`);
-        } else {
-          html = injectHTML + "\n" + html;
-        }
-        res.writeHead(200, { "Content-Type": "text/html" });
-        res.end(html);
+        await indexHtml(proxyRes, res);
+      } else if (config.single && statusCode === 404) {
+        const redirectReq = http.request({ ...options, path: "/" }, (proxyRes) => {
+          indexHtml(proxyRes, res);
+        });
+        redirectReq.end();
       } else if (statusCode >= 500) {
         const str = await text(proxyRes);
         const html = errorHTML.replace("{content}", str);

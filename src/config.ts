@@ -53,6 +53,7 @@ export async function loadConfig(dir = process.cwd()) {
   const result: Required<UserConfig> = {
     serve: { host: "localhost", servedir, ...config?.serve },
     build: { bundle: true, sourcemap: true, ...buildOptions, ...config?.build },
+    single: Boolean(config?.single),
   };
   return result;
 }

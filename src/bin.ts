@@ -27,6 +27,10 @@ async function main() {
     return printCommandLine(config.serve?.servedir, buildOptions);
   }
 
+  if (args.includes("--single")) {
+    config.single = true;
+  }
+
   const server = await serve(dir, config);
   if (args.includes("--open")) {
     if (process.platform === "darwin") {

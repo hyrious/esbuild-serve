@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.3.12] - 2021-06-23
+### Added
+- `--single` to run in SPA mode.
+
 ## [0.3.11] - 2021-06-22
 ### Added
 - `--open` to open browser.
@@ -99,7 +103,8 @@ Nothing new, update the build script.
 ### Added
 - Basic support.
 
-[Unreleased]: https://github.com/hyrious/esbuild-serve/compare/v0.3.11...HEAD
+[Unreleased]: https://github.com/hyrious/esbuild-serve/compare/v0.3.12...HEAD
+[0.3.12]: https://github.com/hyrious/esbuild-serve/compare/v0.3.11...v0.3.12
 [0.3.11]: https://github.com/hyrious/esbuild-serve/compare/v0.3.10...v0.3.11
 [0.3.10]: https://github.com/hyrious/esbuild-serve/compare/v0.3.9...v0.3.10
 [0.3.9]: https://github.com/hyrious/esbuild-serve/compare/v0.3.8...v0.3.9

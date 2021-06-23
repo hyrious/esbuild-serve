@@ -128,3 +128,17 @@ export function text(res: IncomingMessage) {
     res.on("end", () => resolve(Buffer.concat(chunks).toString("utf-8")));
   });
 }
+
+export function parse(pathname?: string) {
+  if (!pathname) return "/";
+  const index = pathname.indexOf("?", 1);
+  if (index !== -1) {
+    pathname = pathname.substring(0, index);
+  }
+  if (pathname.indexOf("%") !== -1) {
+    try {
+      pathname = decodeURIComponent(pathname);
+    } catch {}
+  }
+  return pathname;
+}
