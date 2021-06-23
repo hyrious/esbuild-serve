@@ -22,10 +22,14 @@ Other options:
 ```
 > npx @hyrious/esbuild-serve --help
 usage:
-  esbuild-serve [--open] [servedir]   -- serve a folder
+  esbuild-serve [servedir]            -- serve a folder
   esbuild-serve --build [servedir]    -- bundle scripts
   esbuild-serve --dry-run [servedir]  -- print `esbuild --serve ...`
   esbuild-serve init                  -- create an example index.html
+
+additional flags in serve mode:
+  --open    -- open the browser on startup
+  --single  -- redirect all 404 to `/`
 ```
 
 ### Description
