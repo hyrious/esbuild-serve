@@ -2,7 +2,7 @@ import chokidar from "chokidar";
 import esbuild from "esbuild";
 import http, { IncomingMessage, RequestOptions, ServerResponse } from "http";
 import { UserConfig } from "./types";
-import { parse, text } from "./utils";
+import { htmlEscape, parse, text } from "./utils";
 
 export function defineConfig(config: UserConfig) {
   return config;
@@ -65,7 +65,7 @@ export async function serve(dir = process.cwd(), config: Required<UserConfig>) {
   }
 
   async function plainText(proxyRes: IncomingMessage, res: ServerResponse) {
-    const str = await text(proxyRes);
+    const str = htmlEscape(await text(proxyRes));
     const html = errorHTML.replace("{content}", str);
     res.writeHead(200, { "Content-Type": "text/html" });
     res.end(html);
