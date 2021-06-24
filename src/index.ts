@@ -64,6 +64,13 @@ export async function serve(dir = process.cwd(), config: Required<UserConfig>) {
     res.end(html);
   }
 
+  async function plainText(proxyRes: IncomingMessage, res: ServerResponse) {
+    const str = await text(proxyRes);
+    const html = errorHTML.replace("{content}", str);
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.end(html);
+  }
+
   const server = http.createServer((req, res) => {
     const options: RequestOptions = {
       hostname: host,
@@ -82,14 +89,15 @@ export async function serve(dir = process.cwd(), config: Required<UserConfig>) {
         await indexHtml(proxyRes, res);
       } else if (config.single && statusCode === 404) {
         const redirectReq = http.request({ ...options, path: "/" }, (proxyRes) => {
-          indexHtml(proxyRes, res);
+          if (proxyRes.headers["content-type"]?.includes("html")) {
+            return indexHtml(proxyRes, res);
+          } else {
+            return plainText(proxyRes, res);
+          }
         });
         redirectReq.end();
       } else if (statusCode >= 500) {
-        const str = await text(proxyRes);
-        const html = errorHTML.replace("{content}", str);
-        res.writeHead(200, { "Content-Type": "text/html" });
-        res.end(html);
+        await plainText(proxyRes, res);
       } else {
         res.writeHead(proxyRes.statusCode ?? 200, proxyRes.headers);
         proxyRes.pipe(res, { end: true });
