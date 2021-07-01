@@ -25,11 +25,11 @@
   },
   "devDependencies": {
     "@hyrious/esbuild-dev": "^0.3.9",
-    "@types/node": "^15.12.4"
+    "@types/node": "^15.12.5"
   },
   "dependencies": {
     "chokidar": "^3.5.2",
-    "esbuild": "^0.12.9"
+    "esbuild": "^0.12.13"
   },
   "engines": {
     "node": ">=14"
