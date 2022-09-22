@@ -1,6 +1,6 @@
 usage:
   esbuild-serve [servedir]            -- serve a folder
-  esbuild-serve --build [servedir]    -- bundle scripts
+  esbuild-serve build [servedir]      -- bundle scripts
   esbuild-serve --dry-run [servedir]  -- print `esbuild --serve ...`
   esbuild-serve init                  -- create an example index.html
 

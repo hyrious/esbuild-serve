@@ -19,7 +19,7 @@ async function main() {
   const dir: string | undefined = !args[0]?.startsWith("-") ? args[0] : undefined;
   const config = await loadConfig(dir);
   const buildOptions = config.build;
-  if (args.includes("--build")) {
+  if (args.includes("build")) {
     return await esbuild.build({ minify: true, ...buildOptions });
   }
 

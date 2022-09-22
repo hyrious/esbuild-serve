@@ -14,7 +14,7 @@ Serve your static site:
 Build your static site:
 
 ```bash
-> npx @hyrious/esbuild-serve --build
+> npx @hyrious/esbuild-serve build
 ```
 
 Other options:
@@ -23,7 +23,7 @@ Other options:
 > npx @hyrious/esbuild-serve --help
 usage:
   esbuild-serve [servedir]            -- serve a folder
-  esbuild-serve --build [servedir]    -- bundle scripts
+  esbuild-serve build [servedir]      -- bundle scripts
   esbuild-serve --dry-run [servedir]  -- print `esbuild --serve ...`
   esbuild-serve init                  -- create an example index.html
 

@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Changed
+- `esbuild-serve --build` &rarr; `esbuild-serve build`.
 
 ## [0.3.12] - 2021-06-23
 ### Added
