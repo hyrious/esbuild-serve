@@ -24,12 +24,12 @@
     "test": "esbuild-dev -w src/bin.ts test"
   },
   "devDependencies": {
-    "@hyrious/esbuild-dev": "^0.3.9",
-    "@types/node": "^15.12.5"
+    "@hyrious/esbuild-dev": "^0.8.4",
+    "@types/node": "^16.11.59"
   },
   "dependencies": {
-    "chokidar": "^3.5.2",
-    "esbuild": "^0.12.13"
+    "chokidar": "^3.5.3",
+    "esbuild": "^0.15.8"
   },
   "engines": {
     "node": ">=14"
